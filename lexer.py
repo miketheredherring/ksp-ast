@@ -6,7 +6,6 @@ tokens = (
     'RBRACE',
     'ASSIGNMENT',
     'VAR',
-    'WHITESPACE',
 )
 
 
@@ -19,8 +18,7 @@ def t_ASSIGNMENT(t):
 # Regular expression rules for above tokens
 t_LBRACE = r'{'
 t_RBRACE = r'}'
-t_VAR = r'[a-zA-Z0-9]+'
-r_WHITESPACE = r'\s+'
+t_VAR = r'[a-zA-Z0-9_/]+'
 
 
 # Define a rule so we can track line numbers
