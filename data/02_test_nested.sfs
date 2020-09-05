@@ -1,0 +1,14 @@
+GAME
+{
+    version = 1.10.1
+    Title = LunaMultiplayer
+    PARAMETERS
+    {
+        preset = Custom
+        FLIGHT
+        {
+            CanQuickSave = True
+            CanLeaveToMainMenu = True
+        }
+    }
+}
