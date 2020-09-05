@@ -25,6 +25,7 @@ def p_expression_statement_list(p):
     '''statements : variable_expression
                   | variable_expression statements
                   | variable_expression object_statement
+                  | object_statement
                   | empty'''
     token_count = len(p)
     if token_count == 2:

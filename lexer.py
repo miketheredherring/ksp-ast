@@ -18,7 +18,13 @@ def t_ASSIGNMENT(t):
 # Regular expression rules for above tokens
 t_LBRACE = r'{'
 t_RBRACE = r'}'
-t_VAR = r'[a-zA-Z0-9_/]+'
+
+
+def t_VAR(t):
+    r'[a-zA-Z0-9_/\. -]+'
+    if t.value[-1] == ' ':
+        t.value = t.value[:-1]
+    return t
 
 
 # Define a rule so we can track line numbers
