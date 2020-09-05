@@ -47,11 +47,9 @@ class ParserTests(TestCase):
                 LexToken('VAR', 'GAME', 1, 0),
                 LexToken('LBRACE', '{', 2, 5),
                 LexToken('VAR', 'version', 3, 11),
-                LexToken('EQUAL', '=', 3, 19),
-                LexToken('VAR', '1.10.1', 3, 21),
+                LexToken('ASSIGNMENT', '1.10.1', 3, 19),
                 LexToken('VAR', 'Title', 4, 32),
-                LexToken('EQUAL', '=', 4, 38),
-                LexToken('VAR', 'LunaMultiplayer', 4, 40),
+                LexToken('ASSIGNMENT', 'LunaMultiplayer', 4, 38),
                 LexToken('RBRACE', '}', 5, 56)
             ]
         )
@@ -63,7 +61,6 @@ class ParserTests(TestCase):
             data = f.read()
 
         result = parser.parse(data)
-        print(result)
         self.assertEqual(
             result,
             (
@@ -87,12 +84,25 @@ class ParserTests(TestCase):
             (
                 OBJECT_EXPR, 'GAME',
                 (
-                    EXPANSION_EXPR,
                     (ATTRIBUTE_EXPR, 'version', '1.10.1'),
+                    (ATTRIBUTE_EXPR, 'Title', 'LunaMultiplayer'),
+                    (ATTRIBUTE_EXPR, 'Seed', '553334321'),
+                    OBJECT_EXPR, 'PARAMETERS',
                     (
-                        EXPANSION_EXPR,
-                        (ATTRIBUTE_EXPR, 'Title', 'LunaMultiplayer'),
+                        (ATTRIBUTE_EXPR, 'preset', 'Custom'),
+                        OBJECT_EXPR, 'FLIGHT',
+                        (
+                            (ATTRIBUTE_EXPR, 'CanQuickSave', 'True'),
+                            (ATTRIBUTE_EXPR, 'CanLeaveToMainMenu', 'True'),
+                        )
                     )
                 )
             )
         )
+
+    def test_parse_complex(self):
+        '''Ensures we can parse a real game file.
+        '''
+        with open('data/persistent.sfs', 'r') as f:
+            data = f.read()
+            parser.parse(data)

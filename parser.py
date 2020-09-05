@@ -29,8 +29,8 @@ def p_expression_variable_expansion(p):
 
 
 def p_expression_equal(p):
-    'variable_expression : VAR EQUAL VAR'
-    p[0] = (ATTRIBUTE_EXPR, p[1], p[3])
+    'variable_expression : VAR ASSIGNMENT'
+    p[0] = (ATTRIBUTE_EXPR, p[1], p[2])
 
 
 # Error rule for syntax errors

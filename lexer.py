@@ -4,15 +4,23 @@ from ply import lex
 tokens = (
     'LBRACE',
     'RBRACE',
-    'EQUAL',
+    'ASSIGNMENT',
     'VAR',
+    'WHITESPACE',
 )
+
+
+def t_ASSIGNMENT(t):
+    r'= [^\n]+'
+    t.value = t.value[2:]
+    return t
+
 
 # Regular expression rules for above tokens
 t_LBRACE = r'{'
 t_RBRACE = r'}'
-t_EQUAL = r'='
-t_VAR = r'[a-zA-Z0-9\.]+'
+t_VAR = r'[a-zA-Z0-9]+'
+r_WHITESPACE = r'\s+'
 
 
 # Define a rule so we can track line numbers

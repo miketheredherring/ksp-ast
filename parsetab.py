@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'EQUAL LBRACE RBRACE VARexpression : VAR LBRACE expression RBRACEexpression : variable_expression\n                  | variable_expression expressionvariable_expression : VAR EQUAL VAR'
+_lr_signature = 'ASSIGNMENT LBRACE RBRACE VAR WHITESPACEexpression : VAR LBRACE expression RBRACEexpression : variable_expression\n                  | variable_expression expressionvariable_expression : VAR ASSIGNMENT'
     
-_lr_action_items = {'VAR':([0,3,4,5,8,],[2,2,2,8,-4,]),'$end':([1,3,6,8,9,],[0,-2,-3,-4,-1,]),'LBRACE':([2,],[4,]),'EQUAL':([2,],[5,]),'RBRACE':([3,6,7,8,9,],[-2,-3,9,-4,-1,]),}
+_lr_action_items = {'VAR':([0,3,4,5,],[2,2,2,-4,]),'$end':([1,3,5,6,8,],[0,-2,-4,-3,-1,]),'LBRACE':([2,],[4,]),'ASSIGNMENT':([2,],[5,]),'RBRACE':([3,5,6,7,8,],[-2,-4,-3,8,-1,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -30,5 +30,5 @@ _lr_productions = [
   ('expression -> VAR LBRACE expression RBRACE','expression',4,'p_expression_expr','parser.py',13),
   ('expression -> variable_expression','expression',1,'p_expression_variable_expansion','parser.py',18),
   ('expression -> variable_expression expression','expression',2,'p_expression_variable_expansion','parser.py',19),
-  ('variable_expression -> VAR EQUAL VAR','variable_expression',3,'p_expression_equal','parser.py',25),
+  ('variable_expression -> VAR ASSIGNMENT','variable_expression',2,'p_expression_equal','parser.py',32),
 ]

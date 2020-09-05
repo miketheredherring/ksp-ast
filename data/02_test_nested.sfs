@@ -2,6 +2,7 @@ GAME
 {
     version = 1.10.1
     Title = LunaMultiplayer
+    Seed = 553334321
     PARAMETERS
     {
         preset = Custom
