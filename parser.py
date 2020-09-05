@@ -12,7 +12,6 @@ EXPANSION_EXPR = 'expansion'
 
 def p_expression_object(p):
     '''object_statement : VAR LBRACE statements RBRACE object_statement
-                        | VAR LBRACE RBRACE object_statement
                         | empty'''
     if p[1] is None:
         return
@@ -25,7 +24,8 @@ def p_expression_object(p):
 def p_expression_statement_list(p):
     '''statements : variable_expression
                   | variable_expression statements
-                  | variable_expression object_statement'''
+                  | variable_expression object_statement
+                  | empty'''
     token_count = len(p)
     if token_count == 2:
         p[0] = p[1]

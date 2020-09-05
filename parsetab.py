@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGNMENT LBRACE RBRACE VARobject_statement : VAR LBRACE statements RBRACE object_statement\n                        | VAR LBRACE RBRACE object_statement\n                        | emptystatements : variable_expression\n                  | variable_expression statements\n                  | variable_expression object_statementvariable_expression : VAR ASSIGNMENTempty :'
+_lr_signature = 'ASSIGNMENT LBRACE RBRACE VARobject_statement : VAR LBRACE statements RBRACE object_statement\n                        | emptystatements : variable_expression\n                  | variable_expression statements\n                  | variable_expression object_statement\n                  | emptyvariable_expression : VAR ASSIGNMENTempty :'
     
-_lr_action_items = {'VAR':([0,4,7,8,9,10,],[2,5,2,14,-7,2,]),'$end':([0,1,3,7,10,11,15,],[-8,0,-3,-8,-8,-2,-1,]),'LBRACE':([2,14,],[4,4,]),'RBRACE':([3,4,6,7,8,9,10,11,12,13,15,],[-3,7,10,-8,-4,-7,-8,-2,-5,-6,-1,]),'ASSIGNMENT':([5,14,],[9,9,]),}
+_lr_action_items = {'VAR':([0,4,7,9,10,],[2,5,14,-7,2,]),'$end':([0,1,3,10,15,],[-8,0,-2,-8,-1,]),'LBRACE':([2,14,],[4,4,]),'RBRACE':([3,4,6,7,8,9,10,11,12,13,15,],[-2,-8,10,-3,-6,-7,-8,-4,-5,-2,-1,]),'ASSIGNMENT':([5,14,],[9,9,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'object_statement':([0,7,8,10,],[1,11,13,15,]),'empty':([0,7,8,10,],[3,3,3,3,]),'statements':([4,8,],[6,12,]),'variable_expression':([4,8,],[8,8,]),}
+_lr_goto_items = {'object_statement':([0,7,10,],[1,12,15,]),'empty':([0,4,7,10,],[3,8,13,3,]),'statements':([4,7,],[6,11,]),'variable_expression':([4,7,],[7,7,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -28,11 +28,11 @@ del _lr_goto_items
 _lr_productions = [
   ("S' -> object_statement","S'",1,None,None,None),
   ('object_statement -> VAR LBRACE statements RBRACE object_statement','object_statement',5,'p_expression_object','parser.py',14),
-  ('object_statement -> VAR LBRACE RBRACE object_statement','object_statement',4,'p_expression_object','parser.py',15),
-  ('object_statement -> empty','object_statement',1,'p_expression_object','parser.py',16),
-  ('statements -> variable_expression','statements',1,'p_expression_statement_list','parser.py',26),
-  ('statements -> variable_expression statements','statements',2,'p_expression_statement_list','parser.py',27),
-  ('statements -> variable_expression object_statement','statements',2,'p_expression_statement_list','parser.py',28),
+  ('object_statement -> empty','object_statement',1,'p_expression_object','parser.py',15),
+  ('statements -> variable_expression','statements',1,'p_expression_statement_list','parser.py',25),
+  ('statements -> variable_expression statements','statements',2,'p_expression_statement_list','parser.py',26),
+  ('statements -> variable_expression object_statement','statements',2,'p_expression_statement_list','parser.py',27),
+  ('statements -> empty','statements',1,'p_expression_statement_list','parser.py',28),
   ('variable_expression -> VAR ASSIGNMENT','variable_expression',2,'p_expression_assignment','parser.py',40),
   ('empty -> <empty>','empty',0,'p_empty','parser.py',45),
 ]
