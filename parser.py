@@ -14,14 +14,23 @@ def p_expression_expr(p):
     p[0] = (OBJECT_EXPR, p[1], p[3])
 
 
+def p_expression_variable_expansion(p):
+    '''expression : variable_expression
+                  | variable_expression expression'''
+
+    token_count = len(p)
+    if token_count == 2:
+        p[0] = p[1]
+    else:
+        if p[2][0] == ATTRIBUTE_EXPR:
+            p[0] = (p[1], p[2])
+        else:
+            p[0] = (p[1], ) + p[2]
+
+
 def p_expression_equal(p):
-    'expression : VAR EQUAL VAR'
+    'variable_expression : VAR EQUAL VAR'
     p[0] = (ATTRIBUTE_EXPR, p[1], p[3])
-
-
-def p_expression_expansion(p):
-    'expression : expression expression'
-    p[0] = (EXPANSION_EXPR, p[1], p[2])
 
 
 # Error rule for syntax errors

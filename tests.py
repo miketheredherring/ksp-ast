@@ -63,12 +63,12 @@ class ParserTests(TestCase):
             data = f.read()
 
         result = parser.parse(data)
+        print(result)
         self.assertEqual(
             result,
             (
                 OBJECT_EXPR, 'GAME',
                 (
-                    EXPANSION_EXPR,
                     (ATTRIBUTE_EXPR, 'version', '1.10.1'),
                     (ATTRIBUTE_EXPR, 'Title', 'LunaMultiplayer'),
                 )
@@ -89,7 +89,10 @@ class ParserTests(TestCase):
                 (
                     EXPANSION_EXPR,
                     (ATTRIBUTE_EXPR, 'version', '1.10.1'),
-                    (ATTRIBUTE_EXPR, 'Title', 'LunaMultiplayer'),
+                    (
+                        EXPANSION_EXPR,
+                        (ATTRIBUTE_EXPR, 'Title', 'LunaMultiplayer'),
+                    )
                 )
             )
         )

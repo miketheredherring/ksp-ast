@@ -4,20 +4,22 @@ Grammar
 
 Rule 0     S' -> expression
 Rule 1     expression -> VAR LBRACE expression RBRACE
-Rule 2     expression -> VAR EQUAL VAR
-Rule 3     expression -> expression expression
+Rule 2     expression -> variable_expression
+Rule 3     expression -> variable_expression expression
+Rule 4     variable_expression -> VAR EQUAL VAR
 
 Terminals, with rules where they appear
 
-EQUAL                : 2
+EQUAL                : 4
 LBRACE               : 1
 RBRACE               : 1
-VAR                  : 1 2 2
+VAR                  : 1 4 4
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 1 3 3 0
+expression           : 1 3 0
+variable_expression  : 2 3
 
 Parsing method: LALR
 
@@ -25,29 +27,25 @@ state 0
 
     (0) S' -> . expression
     (1) expression -> . VAR LBRACE expression RBRACE
-    (2) expression -> . VAR EQUAL VAR
-    (3) expression -> . expression expression
+    (2) expression -> . variable_expression
+    (3) expression -> . variable_expression expression
+    (4) variable_expression -> . VAR EQUAL VAR
 
     VAR             shift and go to state 2
 
     expression                     shift and go to state 1
+    variable_expression            shift and go to state 3
 
 state 1
 
     (0) S' -> expression .
-    (3) expression -> expression . expression
-    (1) expression -> . VAR LBRACE expression RBRACE
-    (2) expression -> . VAR EQUAL VAR
-    (3) expression -> . expression expression
 
-    VAR             shift and go to state 2
 
-    expression                     shift and go to state 3
 
 state 2
 
     (1) expression -> VAR . LBRACE expression RBRACE
-    (2) expression -> VAR . EQUAL VAR
+    (4) variable_expression -> VAR . EQUAL VAR
 
     LBRACE          shift and go to state 4
     EQUAL           shift and go to state 5
@@ -55,70 +53,68 @@ state 2
 
 state 3
 
-    (3) expression -> expression expression .
-    (3) expression -> expression . expression
+    (2) expression -> variable_expression .
+    (3) expression -> variable_expression . expression
     (1) expression -> . VAR LBRACE expression RBRACE
-    (2) expression -> . VAR EQUAL VAR
-    (3) expression -> . expression expression
+    (2) expression -> . variable_expression
+    (3) expression -> . variable_expression expression
+    (4) variable_expression -> . VAR EQUAL VAR
 
-  ! shift/reduce conflict for VAR resolved as shift
-    $end            reduce using rule 3 (expression -> expression expression .)
-    RBRACE          reduce using rule 3 (expression -> expression expression .)
+    $end            reduce using rule 2 (expression -> variable_expression .)
+    RBRACE          reduce using rule 2 (expression -> variable_expression .)
     VAR             shift and go to state 2
 
-  ! VAR             [ reduce using rule 3 (expression -> expression expression .) ]
-
-    expression                     shift and go to state 3
+    variable_expression            shift and go to state 3
+    expression                     shift and go to state 6
 
 state 4
 
     (1) expression -> VAR LBRACE . expression RBRACE
     (1) expression -> . VAR LBRACE expression RBRACE
-    (2) expression -> . VAR EQUAL VAR
-    (3) expression -> . expression expression
+    (2) expression -> . variable_expression
+    (3) expression -> . variable_expression expression
+    (4) variable_expression -> . VAR EQUAL VAR
 
     VAR             shift and go to state 2
 
-    expression                     shift and go to state 6
+    expression                     shift and go to state 7
+    variable_expression            shift and go to state 3
 
 state 5
 
-    (2) expression -> VAR EQUAL . VAR
+    (4) variable_expression -> VAR EQUAL . VAR
 
-    VAR             shift and go to state 7
+    VAR             shift and go to state 8
 
 
 state 6
 
-    (1) expression -> VAR LBRACE expression . RBRACE
-    (3) expression -> expression . expression
-    (1) expression -> . VAR LBRACE expression RBRACE
-    (2) expression -> . VAR EQUAL VAR
-    (3) expression -> . expression expression
+    (3) expression -> variable_expression expression .
 
-    RBRACE          shift and go to state 8
-    VAR             shift and go to state 2
+    $end            reduce using rule 3 (expression -> variable_expression expression .)
+    RBRACE          reduce using rule 3 (expression -> variable_expression expression .)
 
-    expression                     shift and go to state 3
 
 state 7
 
-    (2) expression -> VAR EQUAL VAR .
+    (1) expression -> VAR LBRACE expression . RBRACE
 
-    VAR             reduce using rule 2 (expression -> VAR EQUAL VAR .)
-    $end            reduce using rule 2 (expression -> VAR EQUAL VAR .)
-    RBRACE          reduce using rule 2 (expression -> VAR EQUAL VAR .)
+    RBRACE          shift and go to state 9
 
 
 state 8
 
+    (4) variable_expression -> VAR EQUAL VAR .
+
+    VAR             reduce using rule 4 (variable_expression -> VAR EQUAL VAR .)
+    $end            reduce using rule 4 (variable_expression -> VAR EQUAL VAR .)
+    RBRACE          reduce using rule 4 (variable_expression -> VAR EQUAL VAR .)
+
+
+state 9
+
     (1) expression -> VAR LBRACE expression RBRACE .
 
-    VAR             reduce using rule 1 (expression -> VAR LBRACE expression RBRACE .)
     $end            reduce using rule 1 (expression -> VAR LBRACE expression RBRACE .)
     RBRACE          reduce using rule 1 (expression -> VAR LBRACE expression RBRACE .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for VAR in state 3 resolved as shift
