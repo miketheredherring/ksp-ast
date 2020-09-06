@@ -7,7 +7,7 @@ from parser import (
     OBJECT_EXPR, ATTRIBUTE_EXPR,
     get_parser
 )
-from saves import KerbalAST
+from saves import KerbalAST, Vessel
 
 
 class LexToken(InternalLexToken):
@@ -125,3 +125,5 @@ class ParserTests(TestCase):
         ksp_universe = KerbalAST('data/persistent.sfs')
         ksp_universe.translate_ast_to_native()
         self.assertGreater(len(ksp_universe.vessels), 0)
+        for vessel in ksp_universe.get_vessels():
+            print('%s : %s\n' % (vessel, vessel.get_docking_ports()))
