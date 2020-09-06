@@ -2,12 +2,11 @@ import sys
 from ply import yacc
 
 # Load list of tokens supported in our language
-from lexer import t_RBRACE, tokens  # noqa
+from lexer import t_RBRACE, get_lexer, tokens  # noqa
 
 
 OBJECT_EXPR = 'object'
 ATTRIBUTE_EXPR = 'attribute'
-EXPANSION_EXPR = 'expansion'
 
 
 def p_expression_object(p):
@@ -34,7 +33,10 @@ def p_expression_statement_list(p):
         if p[2][0] == ATTRIBUTE_EXPR:
             p[0] = (p[1], p[2])
         else:
-            p[0] = (p[1], ) + p[2]
+            statement = p[2]
+            if p[2][0] == OBJECT_EXPR:
+                statement = (p[2], )
+            p[0] = (p[1], ) + statement
 
 
 def p_expression_assignment(p):
@@ -54,4 +56,6 @@ def p_error(p):
     sys.exit(1)
 
 
-parser = yacc.yacc()
+def get_parser():
+    get_lexer()
+    return yacc.yacc()

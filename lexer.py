@@ -36,4 +36,6 @@ def t_newline(t):
 # Whitespace is always meaningless, duh
 t_ignore = '[ \t]+'
 
-lexer = lex.lex()
+
+def get_lexer():
+    return lex.lex()

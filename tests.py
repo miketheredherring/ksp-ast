@@ -2,11 +2,12 @@ from unittest import TestCase
 
 from ply.lex import LexToken as InternalLexToken
 
+from lexer import get_lexer
 from parser import (
-    OBJECT_EXPR, ATTRIBUTE_EXPR, EXPANSION_EXPR,
-    parser
+    OBJECT_EXPR, ATTRIBUTE_EXPR,
+    get_parser
 )
-from lexer import lexer
+from saves import KerbalAST
 
 
 class LexToken(InternalLexToken):
@@ -30,6 +31,7 @@ class ParserTests(TestCase):
     def test_lex_game_only(self):
         '''Ensures we can lex the most basic file.
         '''
+        lexer = get_lexer()
         with open('data/01_test.sfs', 'r') as f:
             data = f.read()
             lexer.input(data)
@@ -60,6 +62,7 @@ class ParserTests(TestCase):
         with open('data/01_test.sfs', 'r') as f:
             data = f.read()
 
+        parser = get_parser()
         result = parser.parse(data)
         self.assertEqual(
             result,
@@ -78,6 +81,7 @@ class ParserTests(TestCase):
         with open('data/02_test_nested.sfs', 'r') as f:
             data = f.read()
 
+        parser = get_parser()
         result = parser.parse(data)
         self.assertEqual(
             result,
@@ -87,13 +91,17 @@ class ParserTests(TestCase):
                     (ATTRIBUTE_EXPR, 'version', '1.10.1'),
                     (ATTRIBUTE_EXPR, 'Title', 'LunaMultiplayer'),
                     (ATTRIBUTE_EXPR, 'Seed', '553334321'),
-                    OBJECT_EXPR, 'PARAMETERS',
                     (
-                        (ATTRIBUTE_EXPR, 'preset', 'Custom'),
-                        OBJECT_EXPR, 'FLIGHT',
+                        OBJECT_EXPR, 'PARAMETERS',
                         (
-                            (ATTRIBUTE_EXPR, 'CanQuickSave', 'True'),
-                            (ATTRIBUTE_EXPR, 'CanLeaveToMainMenu', 'True'),
+                            (ATTRIBUTE_EXPR, 'preset', 'Custom'),
+                            (
+                                OBJECT_EXPR, 'FLIGHT',
+                                (
+                                    (ATTRIBUTE_EXPR, 'CanQuickSave', 'True'),
+                                    (ATTRIBUTE_EXPR, 'CanLeaveToMainMenu', 'True'),
+                                )
+                            )
                         )
                     )
                 )
@@ -105,4 +113,12 @@ class ParserTests(TestCase):
         '''
         with open('data/persistent.sfs', 'r') as f:
             data = f.read()
+            parser = get_parser()
             parser.parse(data)
+
+    def test_ast_get_vessels(self):
+        '''Ensures we can parse a real game file into and AST and extract vessels.
+        '''
+        ksp_universe = KerbalAST('data/persistent.sfs')
+        ksp_universe.translate_ast_to_native()
+        self.assertGreater(len(ksp_universe.vessels), 0)
