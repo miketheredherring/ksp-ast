@@ -92,6 +92,9 @@ class ParserTests(TestCase):
                     (ATTRIBUTE_EXPR, 'Title', 'LunaMultiplayer'),
                     (ATTRIBUTE_EXPR, 'Seed', '553334321'),
                     (
+                        OBJECT_EXPR, 'CometNames', ()
+                    ),
+                    (
                         OBJECT_EXPR, 'PARAMETERS',
                         (
                             (ATTRIBUTE_EXPR, 'preset', 'Custom'),

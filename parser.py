@@ -14,9 +14,16 @@ def p_expression_object(p):
                         | empty'''
     if p[1] is None:
         return
-    statement = (OBJECT_EXPR, p[1], p[3])
+    attributes = p[3]
+    if attributes is None:
+        attributes = ()
+
+    statement = (OBJECT_EXPR, p[1], attributes)
     if p[5] is not None:
-        statement += (p[5], )
+        if p[5][0] == OBJECT_EXPR:
+            statement = (statement, ) + (p[5], )
+        else:
+            statement = (statement, ) + p[5]
     p[0] = statement
 
 

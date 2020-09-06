@@ -1,3 +1,5 @@
+import sys
+
 from ply import lex
 
 # List of acceptable tokens in KSP SFS grammar
@@ -35,6 +37,13 @@ def t_newline(t):
 
 # Whitespace is always meaningless, duh
 t_ignore = '[ \t]+'
+
+
+# Error rule for token errors
+def t_error(t):
+    print(t)
+    print("Token error in source!")
+    sys.exit(2)
 
 
 def get_lexer():

@@ -3,6 +3,9 @@ GAME
     version = 1.10.1
     Title = LunaMultiplayer
     Seed = 553334321
+    CometNames
+    {
+    }
     PARAMETERS
     {
         preset = Custom
