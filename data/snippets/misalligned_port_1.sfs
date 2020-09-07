@@ -1,0 +1,147 @@
+PART
+{
+    name = dockingPort1
+    cid = 4292556228
+    uid = 2098742702
+    mid = 3101746311
+    persistentId = 2890937334
+    launchID = 4
+    parent = 80
+    position = 10.394094467163086,7.0319452285766602,1.323756217956543
+    rotation = 0.703236282,0.706905603,0.0742458999,0.0151942559
+    mirror = 1,1,1
+    symMethod = Radial
+    istg = -1
+    resPri = 0
+    dstg = 0
+    sqor = -1
+    sepI = 4
+    sidx = -1
+    attm = 0
+    sameVesselCollision = False
+    srfN = srfAttach, -1
+    attN = bottom, 80
+    mass = 0.100000001
+    shielded = False
+    temp = 363.93886329101014
+    tempExt = 359.74795931950831
+    tempExtUnexp = 4
+    staticPressureAtm = 0
+    expt = 0.5
+    state = 0
+    attached = True
+    autostrutMode = Off
+    rigidAttachment = False
+    flag = Squad/Flags/hexagon
+    rTrf = dockingPort1
+    modCost = 0
+    EVENTS
+    {
+    }
+    ACTIONS
+    {
+        ToggleSameVesselInteraction
+        {
+            actionGroup = None
+        }
+        SetSameVesselInteraction
+        {
+            actionGroup = None
+        }
+        RemoveSameVesselInteraction
+        {
+            actionGroup = None
+        }
+    }
+    PARTDATA
+    {
+    }
+    MODULE
+    {
+        name = ModuleDockingNode
+        isEnabled = True
+        acquireForceTweak = 100
+        crossfeed = True
+        stagingEnabled = False
+        state = Docked (dockee)
+        dockUId = 1338341988
+        dockNodeIdx = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            UndockAction
+            {
+                actionGroup = None
+            }
+            DecoupleAction
+            {
+                actionGroup = None
+            }
+            MakeReferenceToggle
+            {
+                actionGroup = None
+            }
+            EnableXFeedAction
+            {
+                actionGroup = None
+            }
+            DisableXFeedAction
+            {
+                actionGroup = None
+            }
+            ToggleXFeedAction
+            {
+                actionGroup = None
+            }
+        }
+        DOCKEDVESSEL
+        {
+            vesselName = Rock Candy Factorio
+            vesselType = Station
+            rootUId = 2779924942
+        }
+        UPGRADESAPPLIED
+        {
+        }
+    }
+    MODULE
+    {
+        name = ModuleAnimateGeneric
+        isEnabled = True
+        aniState = LOCKED
+        animSwitch = False
+        animTime = 1
+        animSpeed = 1
+        deployPercent = 100
+        animationIsDisabled = False
+        stagingEnabled = True
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            ToggleAction
+            {
+                actionGroup = None
+            }
+        }
+        AXISGROUPS
+        {
+            deployPercent
+            {
+                axisGroup = None
+                axisIncremental = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                axisInverted = None
+                overrideIncremental0 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                overrideIncremental1 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                overrideIncremental2 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                overrideIncremental3 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+            }
+        }
+        UPGRADESAPPLIED
+        {
+        }
+    }
+}

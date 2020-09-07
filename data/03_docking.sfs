@@ -1,0 +1,885 @@
+VESSEL
+{
+    pid = 4b165b11b0c24ffca975a94947c1e9d5
+    persistentId = 1896837560
+    name = Drill Baby Drill
+    type = Base
+    sit = ORBITING
+    landed = False
+    skipGroundPositioning = True
+    vesselSpawning = False
+    launchedFrom = LaunchPad
+    landedAt = 
+    displaylandedAt = 
+    splashed = False
+    met = 22144183.311342899
+    lct = 210061571.381944
+    lastUT = 232205754.713287
+    distanceTraveled = 1521835.15936881
+    root = 0
+    lat = -2.6531227931638202
+    lon = -11.1145543884098
+    alt = 51188.179494444899
+    hgt = 51188.1797
+    nrm = -0.10752634,-0.00149261951,0.994201064
+    rot = -0.591513097,0.646680176,-0.385454893,0.288689196
+    CoM = -1.03279102,5.22238064,-0.130714417
+    stg = 3
+    prst = False
+    ref = 2173902537
+    ctrl = True
+    PQSMin = 2
+    PQSMax = 7
+    GroupOverride = 0
+    OverrideDefault = False,False,False,False
+    OverrideActionControl = 0,0,0,0
+    OverrideAxisControl = 0,0,0,0
+    OverrideGroupNames = ,,,
+    altDispState = AGL
+    cPch = 0.494
+    cHdg = 3.142
+    cMod = 0
+    ORBIT
+    {
+        SMA = 110737.81690066787
+        ECC = 0.0063886351768407783
+        INC = 2.8639067781517804
+        LPE = 61.754430462379752
+        LAN = 166.93434529638796
+        MNA = -0.5633698621976031
+        EPH = 246770217.04674369
+        REF = 3
+    }
+    PART
+    {
+        name = dockingPort1
+        cid = 4293689988
+        uid = 818979869
+        mid = 352787886
+        persistentId = 169306822
+        launchID = 3
+        parent = 15
+        position = 0,5.5053081512451172,0
+        rotation = 0,0,0,1
+        mirror = 1,1,1
+        symMethod = Radial
+        istg = -1
+        resPri = 0
+        dstg = 0
+        sqor = -1
+        sepI = 0
+        sidx = -1
+        attm = 0
+        sameVesselCollision = False
+        srfN = srfAttach, -1
+        attN = bottom, 15
+        mass = 0.100000001
+        shielded = False
+        temp = 363.54485765528318
+        tempExt = 360.67882479774858
+        tempExtUnexp = 4
+        staticPressureAtm = 0
+        expt = 0.5
+        state = 0
+        attached = True
+        autostrutMode = Off
+        rigidAttachment = False
+        flag = Squad/Flags/hexagon
+        rTrf = dockingPort1
+        modCost = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            ToggleSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            SetSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            RemoveSameVesselInteraction
+            {
+                actionGroup = None
+            }
+        }
+        PARTDATA
+        {
+        }
+        MODULE
+        {
+            name = ModuleDockingNode
+            isEnabled = True
+            acquireForceTweak = 100
+            crossfeed = True
+            stagingEnabled = False
+            state = Ready
+            dockUId = 507209788
+            dockNodeIdx = 0
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                UndockAction
+                {
+                    actionGroup = None
+                }
+                DecoupleAction
+                {
+                    actionGroup = None
+                }
+                MakeReferenceToggle
+                {
+                    actionGroup = None
+                }
+                EnableXFeedAction
+                {
+                    actionGroup = None
+                }
+                DisableXFeedAction
+                {
+                    actionGroup = None
+                }
+                ToggleXFeedAction
+                {
+                    actionGroup = None
+                }
+            }
+            DOCKEDVESSEL
+            {
+                vesselName = Drill Baby Drill
+                vesselType = Base
+                rootUId = 2173902537
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+        MODULE
+        {
+            name = ModuleAnimateGeneric
+            isEnabled = True
+            aniState = LOCKED
+            animSwitch = False
+            animTime = 1
+            animSpeed = 1
+            deployPercent = 100
+            animationIsDisabled = False
+            stagingEnabled = True
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                ToggleAction
+                {
+                    actionGroup = None
+                }
+            }
+            AXISGROUPS
+            {
+                deployPercent
+                {
+                    axisGroup = None
+                    axisIncremental = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                    axisInverted = None
+                    overrideIncremental0 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                    overrideIncremental1 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                    overrideIncremental2 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                    overrideIncremental3 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                }
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+    }
+    PART
+    {
+        name = dockingPort2
+        cid = 4290002760
+        uid = 507209788
+        mid = 1280575624
+        persistentId = 1288402911
+        launchID = 5
+        parent = 16
+        position = 1.9073486328125E-05,6.1209096908569336,-1.4066696166992188E-05
+        rotation = -0.0632971451,8.27271651E-06,0.997994781,5.43260285E-05
+        mirror = 1,1,1
+        symMethod = Radial
+        istg = -1
+        resPri = 0
+        dstg = 0
+        sqor = -1
+        sepI = 1
+        sidx = -1
+        attm = 0
+        sameVesselCollision = False
+        srfN = srfAttach, -1
+        attN = top, -1
+        attN = bottom, 32
+        mass = 0.0500000007
+        shielded = False
+        temp = 363.77989474348249
+        tempExt = 361.93418548633457
+        tempExtUnexp = 4
+        staticPressureAtm = 0
+        expt = 0.5
+        state = 0
+        attached = True
+        autostrutMode = Off
+        rigidAttachment = False
+        flag = Squad/Flags/hexagon
+        rTrf = dockingPort2
+        modCost = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            ToggleSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            SetSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            RemoveSameVesselInteraction
+            {
+                actionGroup = None
+            }
+        }
+        PARTDATA
+        {
+        }
+        MODULE
+        {
+            name = ModuleDockingNode
+            isEnabled = True
+            acquireForceTweak = 100
+            crossfeed = True
+            stagingEnabled = False
+            state = Disengage
+            dockUId = 818979869
+            dockNodeIdx = 0
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                UndockAction
+                {
+                    actionGroup = None
+                }
+                DecoupleAction
+                {
+                    actionGroup = None
+                }
+                MakeReferenceToggle
+                {
+                    actionGroup = None
+                }
+                EnableXFeedAction
+                {
+                    actionGroup = None
+                }
+                DisableXFeedAction
+                {
+                    actionGroup = None
+                }
+                ToggleXFeedAction
+                {
+                    actionGroup = None
+                }
+            }
+            DOCKEDVESSEL
+            {
+                vesselName = Rock Candy Factorio
+                vesselType = Station
+                rootUId = 2779924942
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+    }
+    PART
+    {
+        name = dockingPort2
+        cid = 4290002800
+        uid = 1736166418
+        mid = 1280575624
+        persistentId = 4373080
+        launchID = 5
+        parent = 32
+        position = 0.00021946430206298828,7.9452328681945801,-3.6716461181640625E-05
+        rotation = -5.42396665E-05,-0.997994781,8.21779668E-06,-0.0632971227
+        mirror = 1,1,1
+        symMethod = Radial
+        istg = -1
+        resPri = 0
+        dstg = 0
+        sqor = 0
+        sepI = 2
+        sidx = 4
+        attm = 0
+        sameVesselCollision = False
+        srfN = srfAttach, -1
+        attN = top, -1
+        attN = bottom, 32
+        mass = 0.0500000007
+        shielded = False
+        temp = 363.80590376451471
+        tempExt = 362.32298108477374
+        tempExtUnexp = 4
+        staticPressureAtm = 0
+        expt = 0.5
+        state = 0
+        attached = True
+        autostrutMode = Off
+        rigidAttachment = False
+        flag = Squad/Flags/hexagon
+        rTrf = dockingPort2
+        modCost = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            ToggleSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            SetSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            RemoveSameVesselInteraction
+            {
+                actionGroup = None
+            }
+        }
+        PARTDATA
+        {
+        }
+        MODULE
+        {
+            name = ModuleDockingNode
+            isEnabled = True
+            acquireForceTweak = 100
+            crossfeed = True
+            stagingEnabled = False
+            state = Ready
+            dockUId = 2983269212
+            dockNodeIdx = 0
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                UndockAction
+                {
+                    actionGroup = None
+                }
+                DecoupleAction
+                {
+                    actionGroup = None
+                }
+                MakeReferenceToggle
+                {
+                    actionGroup = None
+                }
+                EnableXFeedAction
+                {
+                    actionGroup = None
+                }
+                DisableXFeedAction
+                {
+                    actionGroup = None
+                }
+                ToggleXFeedAction
+                {
+                    actionGroup = None
+                }
+            }
+            DOCKEDVESSEL
+            {
+                vesselName = Rock Candy Factorio
+                vesselType = Station
+                rootUId = 2779924942
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+    }
+    PART
+    {
+        name = dockingPort2
+        cid = 4290002720
+        uid = 260921698
+        mid = 1280575624
+        persistentId = 3348796295
+        launchID = 5
+        parent = 32
+        position = -0.11512449383735657,7.0330905914306641,0.90482950210571289
+        rotation = -0.467371881,-0.467325807,-0.530614674,-0.530677259
+        mirror = 1,1,1
+        symMethod = Radial
+        istg = -1
+        resPri = 0
+        dstg = 0
+        sqor = -1
+        sepI = 2
+        sidx = -1
+        attm = 0
+        sameVesselCollision = False
+        srfN = srfAttach, -1
+        attN = top, -1
+        attN = bottom, 32
+        mass = 0.0500000007
+        shielded = False
+        temp = 363.81412130544089
+        tempExt = 362.45830567325862
+        tempExtUnexp = 4
+        staticPressureAtm = 0
+        expt = 0.5
+        state = 0
+        attached = True
+        autostrutMode = Off
+        rigidAttachment = False
+        flag = Squad/Flags/hexagon
+        rTrf = dockingPort2
+        modCost = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            ToggleSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            SetSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            RemoveSameVesselInteraction
+            {
+                actionGroup = None
+            }
+        }
+        PARTDATA
+        {
+        }
+        MODULE
+        {
+            name = ModuleDockingNode
+            isEnabled = True
+            acquireForceTweak = 100
+            crossfeed = True
+            stagingEnabled = False
+            state = Ready
+            dockUId = 0
+            dockNodeIdx = 0
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                UndockAction
+                {
+                    actionGroup = None
+                }
+                DecoupleAction
+                {
+                    actionGroup = None
+                }
+                MakeReferenceToggle
+                {
+                    actionGroup = None
+                }
+                EnableXFeedAction
+                {
+                    actionGroup = None
+                }
+                DisableXFeedAction
+                {
+                    actionGroup = None
+                }
+                ToggleXFeedAction
+                {
+                    actionGroup = None
+                }
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+    }
+    PART
+    {
+        name = dockingPort3
+        cid = 4290002642
+        uid = 2756628824
+        mid = 1280575624
+        persistentId = 3903108680
+        launchID = 5
+        parent = 65
+        position = 0.13902997970581055,7.033050537109375,-1.0908863544464111
+        rotation = 0.530677199,0.530614614,-0.467325807,-0.467371762
+        mirror = 1,1,1
+        symMethod = Radial
+        istg = -1
+        resPri = 0
+        dstg = 0
+        sqor = -1
+        sepI = 2
+        sidx = -1
+        attm = 0
+        sameVesselCollision = False
+        srfN = srfAttach, -1
+        attN = top, -1
+        attN = bottom, 65
+        mass = 0.0199999996
+        shielded = False
+        temp = 363.75829814583631
+        tempExt = 362.13667714099427
+        tempExtUnexp = 4
+        staticPressureAtm = 0
+        expt = 0.5
+        state = 0
+        attached = True
+        autostrutMode = Off
+        rigidAttachment = False
+        flag = Squad/Flags/hexagon
+        rTrf = dockingPort3
+        modCost = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            ToggleSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            SetSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            RemoveSameVesselInteraction
+            {
+                actionGroup = None
+            }
+        }
+        PARTDATA
+        {
+        }
+        MODULE
+        {
+            name = ModuleDockingNode
+            isEnabled = True
+            acquireForceTweak = 100
+            crossfeed = True
+            stagingEnabled = False
+            state = Ready
+            dockUId = 0
+            dockNodeIdx = 0
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                UndockAction
+                {
+                    actionGroup = None
+                }
+                DecoupleAction
+                {
+                    actionGroup = None
+                }
+                MakeReferenceToggle
+                {
+                    actionGroup = None
+                }
+                EnableXFeedAction
+                {
+                    actionGroup = None
+                }
+                DisableXFeedAction
+                {
+                    actionGroup = None
+                }
+                ToggleXFeedAction
+                {
+                    actionGroup = None
+                }
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+    }
+    PART
+    {
+        name = dockingPort1
+        cid = 4292556228
+        uid = 2098742702
+        mid = 3101746311
+        persistentId = 2890937334
+        launchID = 4
+        parent = 80
+        position = 10.394094467163086,7.0319452285766602,1.323756217956543
+        rotation = 0.703236282,0.706905603,0.0742458999,0.0151942559
+        mirror = 1,1,1
+        symMethod = Radial
+        istg = -1
+        resPri = 0
+        dstg = 0
+        sqor = -1
+        sepI = 4
+        sidx = -1
+        attm = 0
+        sameVesselCollision = False
+        srfN = srfAttach, -1
+        attN = bottom, 80
+        mass = 0.100000001
+        shielded = False
+        temp = 363.93886329101014
+        tempExt = 359.74795931950831
+        tempExtUnexp = 4
+        staticPressureAtm = 0
+        expt = 0.5
+        state = 0
+        attached = True
+        autostrutMode = Off
+        rigidAttachment = False
+        flag = Squad/Flags/hexagon
+        rTrf = dockingPort1
+        modCost = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            ToggleSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            SetSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            RemoveSameVesselInteraction
+            {
+                actionGroup = None
+            }
+        }
+        PARTDATA
+        {
+        }
+        MODULE
+        {
+            name = ModuleDockingNode
+            isEnabled = True
+            acquireForceTweak = 100
+            crossfeed = True
+            stagingEnabled = False
+            state = Docked (dockee)
+            dockUId = 1338341988
+            dockNodeIdx = 0
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                UndockAction
+                {
+                    actionGroup = None
+                }
+                DecoupleAction
+                {
+                    actionGroup = None
+                }
+                MakeReferenceToggle
+                {
+                    actionGroup = None
+                }
+                EnableXFeedAction
+                {
+                    actionGroup = None
+                }
+                DisableXFeedAction
+                {
+                    actionGroup = None
+                }
+                ToggleXFeedAction
+                {
+                    actionGroup = None
+                }
+            }
+            DOCKEDVESSEL
+            {
+                vesselName = Rock Candy Factorio
+                vesselType = Station
+                rootUId = 2779924942
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+        MODULE
+        {
+            name = ModuleAnimateGeneric
+            isEnabled = True
+            aniState = LOCKED
+            animSwitch = False
+            animTime = 1
+            animSpeed = 1
+            deployPercent = 100
+            animationIsDisabled = False
+            stagingEnabled = True
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                ToggleAction
+                {
+                    actionGroup = None
+                }
+            }
+            AXISGROUPS
+            {
+                deployPercent
+                {
+                    axisGroup = None
+                    axisIncremental = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                    axisInverted = None
+                    overrideIncremental0 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                    overrideIncremental1 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                    overrideIncremental2 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                    overrideIncremental3 = Pitch, Yaw, Roll, TranslateX, TranslateY, TranslateZ, WheelSteer, WheelThrottle, Custom01, Custom02, Custom03, Custom04
+                }
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+    }
+    PART
+    {
+        name = dockingPort2
+        cid = 4290364516
+        uid = 1338341988
+        mid = 3675674075
+        persistentId = 1293748775
+        launchID = 5
+        parent = 81
+        position = 11.004826545715332,7.0322613716125488,1.4010295867919922
+        rotation = -0.0370708629,-0.0511328802,0.706593871,0.704795361
+        mirror = 1,1,1
+        symMethod = Radial
+        istg = -1
+        resPri = 0
+        dstg = 0
+        sqor = -1
+        sepI = 5
+        sidx = -1
+        attm = 0
+        sameVesselCollision = False
+        srfN = srfAttach, -1
+        attN = top, -1
+        attN = bottom, 83
+        mass = 0.0500000007
+        shielded = False
+        temp = 308.58040969969466
+        tempExt = 319.14775744174432
+        tempExtUnexp = 4
+        staticPressureAtm = 0
+        expt = 0.5
+        state = 0
+        attached = True
+        autostrutMode = Off
+        rigidAttachment = False
+        flag = Squad/Flags/hexagon
+        rTrf = dockingPort2
+        modCost = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            ToggleSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            SetSameVesselInteraction
+            {
+                actionGroup = None
+            }
+            RemoveSameVesselInteraction
+            {
+                actionGroup = None
+            }
+        }
+        PARTDATA
+        {
+        }
+        MODULE
+        {
+            name = ModuleDockingNode
+            isEnabled = True
+            acquireForceTweak = 100
+            crossfeed = True
+            stagingEnabled = False
+            state = Docked (docker)
+            dockUId = 2098742702
+            dockNodeIdx = 0
+            EVENTS
+            {
+            }
+            ACTIONS
+            {
+                UndockAction
+                {
+                    actionGroup = None
+                }
+                DecoupleAction
+                {
+                    actionGroup = None
+                }
+                MakeReferenceToggle
+                {
+                    actionGroup = None
+                }
+                EnableXFeedAction
+                {
+                    actionGroup = None
+                }
+                DisableXFeedAction
+                {
+                    actionGroup = None
+                }
+                ToggleXFeedAction
+                {
+                    actionGroup = None
+                }
+            }
+            DOCKEDVESSEL
+            {
+                vesselName = Can Lander Mk2 Lite
+                vesselType = Lander
+                rootUId = 3371683852
+            }
+            UPGRADESAPPLIED
+            {
+            }
+        }
+    }
+}

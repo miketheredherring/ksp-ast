@@ -127,5 +127,14 @@ class ParserTests(TestCase):
         self.assertGreater(len(ksp_universe.vessels), 0)
         for vessel in ksp_universe.get_vessels(_type=Vessel.TYPE_BASE):
             print(str(vessel))
-            for port in vessel.get_docking_ports():
+            for port in vessel.docking_ports:
                 print('%s - %s' % (type(port), port))
+
+    def test_ast_vessel_repair_docking_ports(self):
+        '''Ensures we can parse a real vessel and find validation issues.
+        '''
+        ksp_universe = KerbalAST('data/03_docking.sfs')
+        ksp_universe.translate_ast_to_native()
+        self.assertEqual(len(ksp_universe.vessels), 1)
+        for vessel in ksp_universe.get_vessels(_type=Vessel.TYPE_BASE):
+            vessel.repair_docking_ports()

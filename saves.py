@@ -1,3 +1,6 @@
+import itertools
+
+from exceptions import ValidationError
 from parser import (
     ATTRIBUTE_EXPR, OBJECT_EXPR,
     get_parser
@@ -10,9 +13,12 @@ class Part(object):
     # Constants identifying common parts
     DOCKING_PORT = 'ModuleDockingNode'
 
-    def __init__(self, name=None, MODULE=None, **kwargs):
+    VALID_PART_MODULES = [DOCKING_PORT, ]
+
+    def __init__(self, name=None, MODULE=None, parent=None, **kwargs):
         self.name = name
-        self.module = MODULE
+        self.parent = parent
+        self.modules = MODULE
 
     def __repr__(self):
         return self.name
@@ -21,8 +27,19 @@ class Part(object):
     def bind(cls, **kwargs):
         '''Generate either generic or specific part class.
         '''
-        module = kwargs.get('MODULE', None)
-        if module is not None:
+        modules = kwargs.get('MODULE', None)
+        if modules is not None:
+            # Since we can get multiple modules, find the one that will determine the part
+            module = modules
+            if isinstance(modules, list):
+                for _module in modules:
+                    _module_attributes = KerbalAST.get_attributes_as_dict(
+                        (OBJECT_EXPR, 'MODULE', _module)
+                    )
+                    if _module_attributes['name'] in Part.VALID_PART_MODULES:
+                        module = _module
+                        break
+
             module_attributes = KerbalAST.get_attributes_as_dict(
                 (OBJECT_EXPR, 'MODULE', module)
             )
@@ -32,6 +49,11 @@ class Part(object):
                     **kwargs
                 )
         return Part(**kwargs)
+
+    def validate(self):
+        '''Stub which will always pass validation.
+        '''
+        pass
 
 
 class DockingPort(Part):
@@ -60,6 +82,17 @@ class DockingPort(Part):
             ret += ' - %s' % (self.docked_vessel['vesselName'])
         return ret
 
+    def validate(self):
+        '''Identify all invalid states, assuming we are not in one, then we validated!
+        '''
+        if self.state == DockingPort.STATE_READY:
+            if self.docked_vessel is not None:
+                raise ValidationError(
+                    'Docking port %s state is unbound, but has docked vessel' % (
+                        self.dock_id
+                    )
+                )
+
 
 class Vessel(object):
     object_id = 'VESSEL'
@@ -78,23 +111,35 @@ class Vessel(object):
         self.persistent_id = persistentId
         self.parts = []
 
-    def get_docking_ports(self):
-        ports = []
-        for part in self.parts:
-            if isinstance(part, DockingPort):
-                ports.append(part)
-        return ports
+    @property
+    def docking_ports(self):
+        return list(filter(lambda p: isinstance(p, DockingPort), self.parts))
 
-    def validate_docks(self, expected_vessels=None):
+    def repair_docking_ports(self):
+        ports = self.docking_ports
+        try:
+            for port in ports:
+                port.validate()
+        except ValidationError:
+            print('Docking port found in invalid config, attempting repair')
+
+            # Group the ports by the parent first
+            # NOTE: We have not seen samevessel dockings break
+            # only separate vessel interactions!
+            for parent_id, ports in itertools.groupby(
+                ports, lambda p: p.parent
+            ):
+                print('Parent %s: %s' % (parent_id, ', '.join(map(str, ports))))
+
+    def validate(self, expected_vessels=None):
         '''Validates all ports are properly docked and not orphaned.
 
         When providing `expected_vessels` we can identify orphaned
         docks more reliably since missing references can be suggested
         based on orientation/positions of the ports.
         '''
-        pairs = []
-        for port in self.get_docking_ports():
-            pass
+        for part in self.parts:
+            part.validate()
 
     def __repr__(self):
         return '<Vessel %s (%s %s)>' % (self.name, self.type, self.persistent_id)
@@ -129,7 +174,13 @@ class KerbalAST(object):
     def get_attributes_as_dict(obj):
         attributes = {}
         for attr in obj[2]:
-            attributes[attr[1]] = attr[2]
+            # Same key can occur multiple times
+            if attr[1] in attributes:
+                if not isinstance(attributes[attr[1]], list):
+                    attributes[attr[1]] = [attributes[attr[1]], ]
+                attributes[attr[1]].append(attr[2])
+            else:
+                attributes[attr[1]] = attr[2]
         return attributes
 
     def load_ast_from_file(self, filename):

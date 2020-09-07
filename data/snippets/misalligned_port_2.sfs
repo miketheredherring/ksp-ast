@@ -1,0 +1,110 @@
+PART
+{
+    name = dockingPort2
+    cid = 4290364516
+    uid = 1338341988
+    mid = 3675674075
+    persistentId = 1293748775
+    launchID = 5
+    parent = 81
+    position = 11.004826545715332,7.0322613716125488,1.4010295867919922
+    rotation = -0.0370708629,-0.0511328802,0.706593871,0.704795361
+    mirror = 1,1,1
+    symMethod = Radial
+    istg = -1
+    resPri = 0
+    dstg = 0
+    sqor = -1
+    sepI = 5
+    sidx = -1
+    attm = 0
+    sameVesselCollision = False
+    srfN = srfAttach, -1
+    attN = top, -1
+    attN = bottom, 83
+    mass = 0.0500000007
+    shielded = False
+    temp = 308.58040969969466
+    tempExt = 319.14775744174432
+    tempExtUnexp = 4
+    staticPressureAtm = 0
+    expt = 0.5
+    state = 0
+    attached = True
+    autostrutMode = Off
+    rigidAttachment = False
+    flag = Squad/Flags/hexagon
+    rTrf = dockingPort2
+    modCost = 0
+    EVENTS
+    {
+    }
+    ACTIONS
+    {
+        ToggleSameVesselInteraction
+        {
+            actionGroup = None
+        }
+        SetSameVesselInteraction
+        {
+            actionGroup = None
+        }
+        RemoveSameVesselInteraction
+        {
+            actionGroup = None
+        }
+    }
+    PARTDATA
+    {
+    }
+    MODULE
+    {
+        name = ModuleDockingNode
+        isEnabled = True
+        acquireForceTweak = 100
+        crossfeed = True
+        stagingEnabled = False
+        state = Docked (docker)
+        dockUId = 2098742702
+        dockNodeIdx = 0
+        EVENTS
+        {
+        }
+        ACTIONS
+        {
+            UndockAction
+            {
+                actionGroup = None
+            }
+            DecoupleAction
+            {
+                actionGroup = None
+            }
+            MakeReferenceToggle
+            {
+                actionGroup = None
+            }
+            EnableXFeedAction
+            {
+                actionGroup = None
+            }
+            DisableXFeedAction
+            {
+                actionGroup = None
+            }
+            ToggleXFeedAction
+            {
+                actionGroup = None
+            }
+        }
+        DOCKEDVESSEL
+        {
+            vesselName = Can Lander Mk2 Lite
+            vesselType = Lander
+            rootUId = 3371683852
+        }
+        UPGRADESAPPLIED
+        {
+        }
+    }
+}
