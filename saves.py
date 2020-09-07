@@ -17,6 +17,49 @@ class Part(object):
     def __repr__(self):
         return self.name
 
+    @classmethod
+    def bind(cls, **kwargs):
+        '''Generate either generic or specific part class.
+        '''
+        module = kwargs.get('MODULE', None)
+        if module is not None:
+            module_attributes = KerbalAST.get_attributes_as_dict(
+                (OBJECT_EXPR, 'MODULE', module)
+            )
+            if module_attributes['name'] == Part.DOCKING_PORT:
+                return DockingPort(
+                    module_attributes,
+                    **kwargs
+                )
+        return Part(**kwargs)
+
+
+class DockingPort(Part):
+    # Constants identifying potential states
+    STATE_READY = 'Ready'
+
+    def __init__(self, mod_attrs, rTrf=None, **kwargs):
+        super().__init__(**kwargs)
+
+        # Parse component specific state
+        self.dock_id = mod_attrs['dockUId']
+        self.is_enabled = mod_attrs['isEnabled']
+        self.state = mod_attrs['state']
+        self.reference_type = rTrf
+
+        # Parse out docked vessel
+        self.docked_vessel = mod_attrs.get('DOCKEDVESSEL', None)
+        if self.docked_vessel is not None:
+            self.docked_vessel = KerbalAST.get_attributes_as_dict(
+                (OBJECT_EXPR, 'DOCKEDVESSEL', self.docked_vessel)
+            )
+
+    def __repr__(self):
+        ret = '<%s %s : %s>' % (self.reference_type.title(), self.dock_id, self.state)
+        if self.docked_vessel:
+            ret += ' - %s' % (self.docked_vessel['vesselName'])
+        return ret
+
 
 class Vessel(object):
     object_id = 'VESSEL'
@@ -38,13 +81,20 @@ class Vessel(object):
     def get_docking_ports(self):
         ports = []
         for part in self.parts:
-            if part.module is not None:
-                attributes = KerbalAST.get_attributes_as_dict(
-                    (OBJECT_EXPR, 'MODULE', part.module)
-                )
-                if attributes['name'] == Part.DOCKING_PORT:
-                    ports.append(part)
+            if isinstance(part, DockingPort):
+                ports.append(part)
         return ports
+
+    def validate_docks(self, expected_vessels=None):
+        '''Validates all ports are properly docked and not orphaned.
+
+        When providing `expected_vessels` we can identify orphaned
+        docks more reliably since missing references can be suggested
+        based on orientation/positions of the ports.
+        '''
+        pairs = []
+        for port in self.get_docking_ports():
+            pass
 
     def __repr__(self):
         return '<Vessel %s (%s %s)>' % (self.name, self.type, self.persistent_id)
@@ -113,7 +163,7 @@ class KerbalAST(object):
                 for sub_elem in current_ast[2]:
                     if sub_elem[0] == OBJECT_EXPR:
                         if sub_elem[1] == Part.object_id:
-                            part = Part(
+                            part = Part.bind(
                                 **KerbalAST.get_attributes_as_dict(sub_elem)
                             )
                             vessel.parts.append(part)

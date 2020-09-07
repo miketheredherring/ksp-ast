@@ -125,5 +125,7 @@ class ParserTests(TestCase):
         ksp_universe = KerbalAST('data/persistent.sfs')
         ksp_universe.translate_ast_to_native()
         self.assertGreater(len(ksp_universe.vessels), 0)
-        for vessel in ksp_universe.get_vessels():
-            print('%s : %s\n' % (vessel, vessel.get_docking_ports()))
+        for vessel in ksp_universe.get_vessels(_type=Vessel.TYPE_BASE):
+            print(str(vessel))
+            for port in vessel.get_docking_ports():
+                print('%s - %s' % (type(port), port))
