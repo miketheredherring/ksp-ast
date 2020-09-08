@@ -3,43 +3,38 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> object_statement
-Rule 1     object_statement -> VAR LBRACE statements RBRACE object_statement
-Rule 2     object_statement -> empty
-Rule 3     statements -> variable_expression statements
-Rule 4     statements -> object_statement
-Rule 5     statements -> empty
-Rule 6     variable_expression -> VAR ASSIGNMENT
-Rule 7     empty -> <empty>
+Rule 1     object_statement -> VAR LBRACE statements RBRACE statements
+Rule 2     statements -> variable_expression statements
+Rule 3     statements -> object_statement
+Rule 4     statements -> empty
+Rule 5     variable_expression -> VAR ASSIGNMENT
+Rule 6     empty -> <empty>
 
 Terminals, with rules where they appear
 
-ASSIGNMENT           : 6
+ASSIGNMENT           : 5
 LBRACE               : 1
 RBRACE               : 1
-VAR                  : 1 6
+VAR                  : 1 5
 error                : 
 
 Nonterminals, with rules where they appear
 
-empty                : 2 5
-object_statement     : 1 4 0
-statements           : 1 3
-variable_expression  : 3
+empty                : 4
+object_statement     : 3 0
+statements           : 1 1 2
+variable_expression  : 2
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . object_statement
-    (1) object_statement -> . VAR LBRACE statements RBRACE object_statement
-    (2) object_statement -> . empty
-    (7) empty -> .
+    (1) object_statement -> . VAR LBRACE statements RBRACE statements
 
     VAR             shift and go to state 2
-    $end            reduce using rule 7 (empty -> .)
 
     object_statement               shift and go to state 1
-    empty                          shift and go to state 3
 
 state 1
 
@@ -49,130 +44,120 @@ state 1
 
 state 2
 
-    (1) object_statement -> VAR . LBRACE statements RBRACE object_statement
+    (1) object_statement -> VAR . LBRACE statements RBRACE statements
 
-    LBRACE          shift and go to state 4
+    LBRACE          shift and go to state 3
 
 
 state 3
 
-    (2) object_statement -> empty .
+    (1) object_statement -> VAR LBRACE . statements RBRACE statements
+    (2) statements -> . variable_expression statements
+    (3) statements -> . object_statement
+    (4) statements -> . empty
+    (5) variable_expression -> . VAR ASSIGNMENT
+    (1) object_statement -> . VAR LBRACE statements RBRACE statements
+    (6) empty -> .
 
-    $end            reduce using rule 2 (object_statement -> empty .)
-    RBRACE          reduce using rule 2 (object_statement -> empty .)
+    VAR             shift and go to state 4
+    RBRACE          reduce using rule 6 (empty -> .)
 
+    statements                     shift and go to state 5
+    variable_expression            shift and go to state 6
+    object_statement               shift and go to state 7
+    empty                          shift and go to state 8
 
 state 4
 
-    (1) object_statement -> VAR LBRACE . statements RBRACE object_statement
-    (3) statements -> . variable_expression statements
-    (4) statements -> . object_statement
-    (5) statements -> . empty
-    (6) variable_expression -> . VAR ASSIGNMENT
-    (1) object_statement -> . VAR LBRACE statements RBRACE object_statement
-    (2) object_statement -> . empty
-    (7) empty -> .
+    (5) variable_expression -> VAR . ASSIGNMENT
+    (1) object_statement -> VAR . LBRACE statements RBRACE statements
 
-    VAR             shift and go to state 5
-    RBRACE          reduce using rule 7 (empty -> .)
+    ASSIGNMENT      shift and go to state 9
+    LBRACE          shift and go to state 3
 
-    statements                     shift and go to state 6
-    object_statement               shift and go to state 7
-    variable_expression            shift and go to state 8
-    empty                          shift and go to state 9
 
 state 5
 
-    (6) variable_expression -> VAR . ASSIGNMENT
-    (1) object_statement -> VAR . LBRACE statements RBRACE object_statement
+    (1) object_statement -> VAR LBRACE statements . RBRACE statements
 
-    ASSIGNMENT      shift and go to state 10
-    LBRACE          shift and go to state 4
+    RBRACE          shift and go to state 10
 
 
 state 6
 
-    (1) object_statement -> VAR LBRACE statements . RBRACE object_statement
+    (2) statements -> variable_expression . statements
+    (2) statements -> . variable_expression statements
+    (3) statements -> . object_statement
+    (4) statements -> . empty
+    (5) variable_expression -> . VAR ASSIGNMENT
+    (1) object_statement -> . VAR LBRACE statements RBRACE statements
+    (6) empty -> .
 
-    RBRACE          shift and go to state 11
+    VAR             shift and go to state 4
+    RBRACE          reduce using rule 6 (empty -> .)
+    $end            reduce using rule 6 (empty -> .)
 
+    variable_expression            shift and go to state 6
+    statements                     shift and go to state 11
+    object_statement               shift and go to state 7
+    empty                          shift and go to state 8
 
 state 7
 
-    (4) statements -> object_statement .
+    (3) statements -> object_statement .
 
-    RBRACE          reduce using rule 4 (statements -> object_statement .)
+    RBRACE          reduce using rule 3 (statements -> object_statement .)
+    $end            reduce using rule 3 (statements -> object_statement .)
 
 
 state 8
 
-    (3) statements -> variable_expression . statements
-    (3) statements -> . variable_expression statements
-    (4) statements -> . object_statement
-    (5) statements -> . empty
-    (6) variable_expression -> . VAR ASSIGNMENT
-    (1) object_statement -> . VAR LBRACE statements RBRACE object_statement
-    (2) object_statement -> . empty
-    (7) empty -> .
+    (4) statements -> empty .
 
-    VAR             shift and go to state 5
-    RBRACE          reduce using rule 7 (empty -> .)
+    RBRACE          reduce using rule 4 (statements -> empty .)
+    $end            reduce using rule 4 (statements -> empty .)
 
-    variable_expression            shift and go to state 8
-    statements                     shift and go to state 12
-    object_statement               shift and go to state 7
-    empty                          shift and go to state 9
 
 state 9
 
-    (5) statements -> empty .
-    (2) object_statement -> empty .
+    (5) variable_expression -> VAR ASSIGNMENT .
 
-  ! reduce/reduce conflict for RBRACE resolved using rule 2 (object_statement -> empty .)
-    RBRACE          reduce using rule 2 (object_statement -> empty .)
-
-  ! RBRACE          [ reduce using rule 5 (statements -> empty .) ]
+    VAR             reduce using rule 5 (variable_expression -> VAR ASSIGNMENT .)
+    RBRACE          reduce using rule 5 (variable_expression -> VAR ASSIGNMENT .)
+    $end            reduce using rule 5 (variable_expression -> VAR ASSIGNMENT .)
 
 
 state 10
 
-    (6) variable_expression -> VAR ASSIGNMENT .
+    (1) object_statement -> VAR LBRACE statements RBRACE . statements
+    (2) statements -> . variable_expression statements
+    (3) statements -> . object_statement
+    (4) statements -> . empty
+    (5) variable_expression -> . VAR ASSIGNMENT
+    (1) object_statement -> . VAR LBRACE statements RBRACE statements
+    (6) empty -> .
 
-    VAR             reduce using rule 6 (variable_expression -> VAR ASSIGNMENT .)
-    RBRACE          reduce using rule 6 (variable_expression -> VAR ASSIGNMENT .)
+    VAR             shift and go to state 4
+    RBRACE          reduce using rule 6 (empty -> .)
+    $end            reduce using rule 6 (empty -> .)
 
+    statements                     shift and go to state 12
+    variable_expression            shift and go to state 6
+    object_statement               shift and go to state 7
+    empty                          shift and go to state 8
 
 state 11
 
-    (1) object_statement -> VAR LBRACE statements RBRACE . object_statement
-    (1) object_statement -> . VAR LBRACE statements RBRACE object_statement
-    (2) object_statement -> . empty
-    (7) empty -> .
+    (2) statements -> variable_expression statements .
 
-    VAR             shift and go to state 2
-    $end            reduce using rule 7 (empty -> .)
-    RBRACE          reduce using rule 7 (empty -> .)
+    RBRACE          reduce using rule 2 (statements -> variable_expression statements .)
+    $end            reduce using rule 2 (statements -> variable_expression statements .)
 
-    object_statement               shift and go to state 13
-    empty                          shift and go to state 3
 
 state 12
 
-    (3) statements -> variable_expression statements .
+    (1) object_statement -> VAR LBRACE statements RBRACE statements .
 
-    RBRACE          reduce using rule 3 (statements -> variable_expression statements .)
+    $end            reduce using rule 1 (object_statement -> VAR LBRACE statements RBRACE statements .)
+    RBRACE          reduce using rule 1 (object_statement -> VAR LBRACE statements RBRACE statements .)
 
-
-state 13
-
-    (1) object_statement -> VAR LBRACE statements RBRACE object_statement .
-
-    $end            reduce using rule 1 (object_statement -> VAR LBRACE statements RBRACE object_statement .)
-    RBRACE          reduce using rule 1 (object_statement -> VAR LBRACE statements RBRACE object_statement .)
-
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: reduce/reduce conflict in state 9 resolved using rule (object_statement -> empty)
-WARNING: rejected rule (statements -> empty) in state 9
-WARNING: Rule (statements -> empty) is never reduced

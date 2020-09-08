@@ -10,8 +10,7 @@ ATTRIBUTE_EXPR = 'attribute'
 
 
 def p_expression_object(p):
-    '''object_statement : VAR LBRACE statements RBRACE object_statement
-                        | empty'''
+    '''object_statement : VAR LBRACE statements RBRACE statements'''
     if p[1] is None:
         return
     attributes = p[3]
@@ -45,12 +44,12 @@ def p_expression_statement_list(p):
 
 
 def p_expression_assignment(p):
-    'variable_expression : VAR ASSIGNMENT'
+    '''variable_expression : VAR ASSIGNMENT'''
     p[0] = (ATTRIBUTE_EXPR, p[1], p[2])
 
 
 def p_empty(p):
-    'empty :'
+    '''empty :'''
     pass
 
 
