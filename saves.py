@@ -48,8 +48,8 @@ class Part(object):
     VALID_MODULES = [DOCKING_PORT, ]
 
     def __init__(
-        self,
-        uid=None, mid=None,
+        self, *args,
+        uid=None, mid=None, rTrf=None,
         name=None, MODULE=None, parent=None, position=None,
         **kwargs
     ):
@@ -61,6 +61,7 @@ class Part(object):
         self.parent = parent
         self.modules = MODULE
         self.position = tuple(map(float, position.split(',')))
+        self.reference_type = rTrf
 
     def __repr__(self):
         return self.name
@@ -108,14 +109,13 @@ class DockingPort(Part):
         ROLE_DOCKER, ROLE_DOCKEE
     ]
 
-    def __init__(self, mod_attrs, rTrf=None, **kwargs):
+    def __init__(self, mod_attrs, **kwargs):
         super().__init__(**kwargs)
 
         # Parse component specific state
         self.docked_unique_id = mod_attrs['dockUId']
         self.is_enabled = mod_attrs['isEnabled']
         self.state = mod_attrs['state']
-        self.reference_type = rTrf
         self.role = None
 
         # Identify if the port is the primary vehicle or the secondary

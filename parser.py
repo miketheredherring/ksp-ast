@@ -28,15 +28,11 @@ def p_expression_object(p):
 
 
 def p_expression_statement_list(p):
-    '''statements : variable_expression
-                  | variable_expression statements
-                  | variable_expression object_statement
+    '''statements : variable_expression statements
                   | object_statement
                   | empty'''
     token_count = len(p)
-    if token_count == 2:
-        p[0] = p[1]
-    else:
+    if token_count > 2 and p[2] is not None:
         if p[2][0] == ATTRIBUTE_EXPR:
             p[0] = (p[1], p[2])
         else:
@@ -44,6 +40,8 @@ def p_expression_statement_list(p):
             if p[2][0] == OBJECT_EXPR:
                 statement = (p[2], )
             p[0] = (p[1], ) + statement
+    else:
+        p[0] = p[1]
 
 
 def p_expression_assignment(p):
