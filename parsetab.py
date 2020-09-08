@@ -27,13 +27,13 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> object_statement","S'",1,None,None,None),
-  ('object_statement -> VAR LBRACE statements RBRACE object_statement','object_statement',5,'p_expression_object','parser.py',14),
-  ('object_statement -> empty','object_statement',1,'p_expression_object','parser.py',15),
-  ('statements -> variable_expression','statements',1,'p_expression_statement_list','parser.py',25),
-  ('statements -> variable_expression statements','statements',2,'p_expression_statement_list','parser.py',26),
-  ('statements -> variable_expression object_statement','statements',2,'p_expression_statement_list','parser.py',27),
-  ('statements -> object_statement','statements',1,'p_expression_statement_list','parser.py',28),
-  ('statements -> empty','statements',1,'p_expression_statement_list','parser.py',29),
-  ('variable_expression -> VAR ASSIGNMENT','variable_expression',2,'p_expression_assignment','parser.py',41),
-  ('empty -> <empty>','empty',0,'p_empty','parser.py',46),
+  ('object_statement -> VAR LBRACE statements RBRACE object_statement','object_statement',5,'p_expression_object','parser.py',13),
+  ('object_statement -> empty','object_statement',1,'p_expression_object','parser.py',14),
+  ('statements -> variable_expression','statements',1,'p_expression_statement_list','parser.py',31),
+  ('statements -> variable_expression statements','statements',2,'p_expression_statement_list','parser.py',32),
+  ('statements -> variable_expression object_statement','statements',2,'p_expression_statement_list','parser.py',33),
+  ('statements -> object_statement','statements',1,'p_expression_statement_list','parser.py',34),
+  ('statements -> empty','statements',1,'p_expression_statement_list','parser.py',35),
+  ('variable_expression -> VAR ASSIGNMENT','variable_expression',2,'p_expression_assignment','parser.py',50),
+  ('empty -> <empty>','empty',0,'p_empty','parser.py',55),
 ]

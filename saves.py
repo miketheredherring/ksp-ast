@@ -1,4 +1,4 @@
-import itertools
+from copy import deepcopy
 
 from exceptions import ValidationError
 from parser import (
@@ -8,47 +8,89 @@ from parser import (
 
 
 class Part(object):
+    '''Generic `Part` representing anything you can make a rocket with in 1.11.X.
+
+    All sub-classes of `Part` should take at least a single positional argument
+    of `mod_attrs`, which is the parsed MODULE object belonging to the PART
+    identifying itself. Since the MODULE object can be define multiple times,
+    this one is the most relevant to a given PART and is passed as a convenience.
+
+    The only reason something should parse as this class is because we have not
+    had a need to inspect it further. Ideally all parts should be defined in a
+    similar fashion to `DOCKING_PORT` by identifying a PART by its MODULE.
+
+    Below is a list of the fields you may find on a PART object and my
+    interpretation of what it is/should be used for; full disclaimer that these
+    are best guesses, so please leave a comment if you know better than I :).
+
+    `uid` - Unique ID given to every PART object in the game. Often used as a
+        reference in other PART objects for connections like in docking.
+
+    `mid` - Mission ID given for each launch in the game, all PART objects for
+        a given rocket should be the same, easy way to identify all the PART
+        objects belonging to a particular sub-vessel in a docked VESSEL object.
+
+    `name` - Name given to a part. Some parts can be renamed in game and this will
+        be the same, except for parts where you cannot provide a name, it will be
+        something generic like `dockingPort1` for a docking port.
+
+    `parent` - ID (or index) of PART in the VESSEL object for describing which
+        PART objects are attached to each other permenantly. Often seen in the
+        `attN` and `srfN` attributes for part orientation.
+
+    `position` - Local X, Y, Z coordinates of the PART relative to the origin
+        position of the VESSEL object.
+    '''
     object_id = 'PART'
 
     # Constants identifying common parts
     DOCKING_PORT = 'ModuleDockingNode'
+    VALID_MODULES = [DOCKING_PORT, ]
 
-    VALID_PART_MODULES = [DOCKING_PORT, ]
-
-    def __init__(self, name=None, MODULE=None, parent=None, **kwargs):
+    def __init__(
+        self,
+        uid=None, mid=None,
+        name=None, MODULE=None, parent=None, position=None,
+        **kwargs
+    ):
+        '''Default values matching attribute definitions in PART object.
+        '''
+        self.unique_id = uid
+        self.mission_id = mid
         self.name = name
         self.parent = parent
         self.modules = MODULE
+        self.position = tuple(map(float, position.split(',')))
 
     def __repr__(self):
         return self.name
 
     @classmethod
     def bind(cls, **kwargs):
-        '''Generate either generic or specific part class.
+        '''Generate an instance of `Part` or a sub-class based on the provided MODULE object.
         '''
+        part_cls = Part
         modules = kwargs.get('MODULE', None)
+        mod_attrs = None
         if modules is not None:
             # Since we can get multiple modules, find the one that will determine the part
-            module = modules
-            if isinstance(modules, list):
-                for _module in modules:
-                    _module_attributes = KerbalAST.get_attributes_as_dict(
-                        (OBJECT_EXPR, 'MODULE', _module)
-                    )
-                    if _module_attributes['name'] in Part.VALID_PART_MODULES:
-                        module = _module
-                        break
+            if not isinstance(modules, list):
+                modules = [modules, ]
 
-            module_attributes = KerbalAST.get_attributes_as_dict(
-                (OBJECT_EXPR, 'MODULE', module)
-            )
-            if module_attributes['name'] == Part.DOCKING_PORT:
-                return DockingPort(
-                    module_attributes,
-                    **kwargs
+            # Find the most relevant MODULE object for identifying this PART
+            for module in modules:
+                mod_attrs = KerbalAST.get_attributes_as_dict(
+                    (OBJECT_EXPR, 'MODULE', module)
                 )
-        return Part(**kwargs)
+                if mod_attrs['name'] == Part.DOCKING_PORT:
+                    part_cls = DockingPort
+                    break
+
+        # Build args list from parsed attributes
+        args = []
+        if mod_attrs is not None:
+            args = [mod_attrs, ]
+        return part_cls(*args, **kwargs)
 
     def validate(self):
         '''Stub which will always pass validation.
@@ -60,14 +102,27 @@ class DockingPort(Part):
     # Constants identifying potential states
     STATE_READY = 'Ready'
 
+    ROLE_DOCKER = 'docker'
+    ROLE_DOCKEE = 'dockee'
+    ROLES = [
+        ROLE_DOCKER, ROLE_DOCKEE
+    ]
+
     def __init__(self, mod_attrs, rTrf=None, **kwargs):
         super().__init__(**kwargs)
 
         # Parse component specific state
-        self.dock_id = mod_attrs['dockUId']
+        self.docked_unique_id = mod_attrs['dockUId']
         self.is_enabled = mod_attrs['isEnabled']
         self.state = mod_attrs['state']
         self.reference_type = rTrf
+        self.role = None
+
+        # Identify if the port is the primary vehicle or the secondary
+        for role in DockingPort.ROLES:
+            if role in self.state:
+                self.role = role
+                break
 
         # Parse out docked vessel
         self.docked_vessel = mod_attrs.get('DOCKEDVESSEL', None)
@@ -77,10 +132,42 @@ class DockingPort(Part):
             )
 
     def __repr__(self):
-        ret = '<%s %s : %s>' % (self.reference_type.title(), self.dock_id, self.state)
+        ret = '<%s %s : %s>' % (self.reference_type.title(), self.docked_unique_id, self.state)
         if self.docked_vessel:
             ret += ' - %s' % (self.docked_vessel['vesselName'])
         return ret
+
+    def check_docked(self, other_port):
+        '''Determine if there is an error in how two ports are docked.
+
+            1. Validate `dockUId` matches `uid`
+            2. Validate state is `Docked (docker|dockee)
+        '''
+        if self.unique_id != other_port.docked_unique_id:
+            print('%s is missing `dockUId = %s`' % (other_port, self.unique_id))
+        elif other_port.docked_unique_id != self.unique_id:
+            print('%s is missing `dockUId = %s`' % (self, other_port.unique_id))
+
+        # Check one vehicle is the primary and the other is the secondary
+        roles = deepcopy(DockingPort.ROLES)
+        try:
+            roles.remove(self.role)
+            roles.remove(other_port.role)
+        except ValueError:
+            print(
+                '%s and %s have not properly identified primary secondary roles' % (
+                    self, other_port
+                )
+            )
+
+    def distance_to(self, other_port):
+        '''Determine physical distance of ports from one another.
+        '''
+        return abs(
+            (self.position[0] - other_port.position[0]) +
+            (self.position[1] - other_port.position[1]) +
+            (self.position[2] - other_port.position[2])
+        )
 
     def validate(self):
         '''Identify all invalid states, assuming we are not in one, then we validated!
@@ -89,7 +176,7 @@ class DockingPort(Part):
             if self.docked_vessel is not None:
                 raise ValidationError(
                     'Docking port %s state is unbound, but has docked vessel' % (
-                        self.dock_id
+                        self.docked_unique_id
                     )
                 )
 
@@ -117,19 +204,24 @@ class Vessel(object):
 
     def repair_docking_ports(self):
         ports = self.docking_ports
+        print(ports)
         try:
             for port in ports:
                 port.validate()
         except ValidationError:
             print('Docking port found in invalid config, attempting repair')
 
-            # Group the ports by the parent first
-            # NOTE: We have not seen samevessel dockings break
-            # only separate vessel interactions!
-            for parent_id, ports in itertools.groupby(
-                ports, lambda p: p.parent
-            ):
-                print('Parent %s: %s' % (parent_id, ', '.join(map(str, ports))))
+            # Order the ports by position and compare neighbors for likely mates
+            ordered_ports = sorted(ports, key=lambda p: p.position)
+            for idx, port in enumerate(ordered_ports[:-1]):
+                neighbor = ordered_ports[idx + 1]
+
+                # If the ports seem aligned, inspect they are matched
+                if port.distance_to(neighbor) < 1.0:
+                    print('Likely pair found: %s and %s' % (
+                        port, neighbor
+                    ))
+                    port.check_docked(neighbor)
 
     def validate(self, expected_vessels=None):
         '''Validates all ports are properly docked and not orphaned.
@@ -204,13 +296,14 @@ class KerbalAST(object):
         if current_ast is None:
             return
 
-        # If we can inspect or recurse
+        # Ensure the current level is and object before inspecting
         if current_ast[0] == OBJECT_EXPR:
             if current_ast[1] == Vessel.object_id:
                 vessel = Vessel(
                     **KerbalAST.get_attributes_as_dict(current_ast)
                 )
 
+                # Parse out individual parts for our `Vessel`
                 for sub_elem in current_ast[2]:
                     if sub_elem[0] == OBJECT_EXPR:
                         if sub_elem[1] == Part.object_id:
@@ -220,6 +313,7 @@ class KerbalAST(object):
                             vessel.parts.append(part)
                 self.vessels.append(vessel)
             else:
+                # Process all the sub-objects recursively
                 children = current_ast[2]
                 if children:
                     for sub_elem in children:
